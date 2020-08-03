@@ -1,5 +1,6 @@
 import React from 'react'
 import Counter from '../Counter';
+import { unmountCounter } from '../../action'
 
 class CounterGroup extends React.Component {
     constructor(props) {
@@ -8,11 +9,14 @@ class CounterGroup extends React.Component {
     }
 
     handleResize = (event) => {
-    
         this.setState({
             size: event.target.value ? parseInt(event.target.value) : 0,
             totalCount: 0
         })
+    }
+
+    unmountCounter = (value) => {
+        this.props.store.dispatch(unmountCounter(value ? parseInt(value) : 0))
     }
 
     render() {
@@ -35,6 +39,7 @@ class CounterGroup extends React.Component {
                     initArray.map(key => <Counter
                         onIncrement={() => this.props.store.dispatch({ type: 'INCREMENT' })}
                         onDecrement={() => this.props.store.dispatch({ type: 'DECREMENT' })}
+                        unmountCounter={this.unmountCounter}
                         key={key}
                     />)
                 }
