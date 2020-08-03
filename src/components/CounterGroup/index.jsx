@@ -1,5 +1,5 @@
 import React from 'react'
-import Counter from '../counter';
+import Counter from '../Counter';
 
 class CounterGroup extends React.Component {
     constructor(props) {
@@ -8,22 +8,11 @@ class CounterGroup extends React.Component {
     }
 
     handleResize = (event) => {
+    
         this.setState({
             size: event.target.value ? parseInt(event.target.value) : 0,
             totalCount: 0
         })
-    }
-
-    handleIncrese = () => {
-        this.setState((prevState) => ({
-            totalCount: prevState.totalCount + 1
-        }))
-    }
-
-    handleDecrese = () => {
-        this.setState((prevState) => ({
-            totalCount: prevState.totalCount - 1
-        }))
     }
 
     render() {
@@ -39,16 +28,19 @@ class CounterGroup extends React.Component {
                 </div>
                 <div>
                     <label>
-                        Total Number: {this.state.totalCount}
+                        Total Number: {this.props.store.getState()}
                     </label>
                 </div>
                 {
-                    initArray.map(key => <Counter onIncrease={this.handleIncrese} onDecrease={this.handleDecrese} size={this.state.size} key={key} />)
+                    initArray.map(key => <Counter
+                        onIncrement={() => this.props.store.dispatch({ type: 'INCREMENT' })}
+                        onDecrement={() => this.props.store.dispatch({ type: 'DECREMENT' })}
+                        key={key}
+                    />)
                 }
             </div>
         )
     }
-
 }
 
 export default CounterGroup
