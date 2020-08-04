@@ -55,7 +55,8 @@ const mapDispatchToProps = {
     resetToZero: resetToZeroAction
 }
 
-Counter.propTypes = {
+CounterGroup.propTypes = {
+    totalCount: PropTypes.number.isRequired,
     addNumber: PropTypes.func.isRequired,
     subNumber: PropTypes.func.isRequired,
     resetToZero: PropTypes.func.isRequired
