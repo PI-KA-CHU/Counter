@@ -1,22 +1,19 @@
 import React from 'react'
 import Counter from '../Counter';
-import { unmountCounter } from '../../action'
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addNumberAction, subNumberAction, resetToZeroAction } from '../../action';
 
 class CounterGroup extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { size: 0};
+        this.state = { size: 0 };
     }
 
     handleResize = (event) => {
         this.setState({
             size: event.target.value ? parseInt(event.target.value) : 0
         })
-    }
-
-    unmountCounter = (value) => {
-        this.props.store.dispatch(unmountCounter(value ? parseInt(value) : 0))
     }
 
     render() {
@@ -32,7 +29,7 @@ class CounterGroup extends React.Component {
                 </div>
                 <div>
                     <label>
-                        Total Number: {this.props.sum}
+                        Total Number: {this.props.totalCount}
                     </label>
                 </div>
                 {
@@ -49,13 +46,19 @@ class CounterGroup extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return {sum: state.counter}
+    return { totalCount: state.totalCount }
 }
 
-const mapDispatchToProps = dispatch => ({
-    addNumber: (number) => dispatch({type: 'ADD_NUMBER', number}),
-    subNumber: (number) => dispatch({type: 'SUB_NUMBER', number}),
-    resetToZero: (number) => dispatch({type: 'RESET_TO_ZERO', number})
-})
+const mapDispatchToProps = {
+    addNumber: addNumberAction,
+    subNumber: subNumberAction,
+    resetToZero: resetToZeroAction
+}
+
+Counter.propTypes = {
+    addNumber: PropTypes.func.isRequired,
+    subNumber: PropTypes.func.isRequired,
+    resetToZero: PropTypes.func.isRequired
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(CounterGroup)

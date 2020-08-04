@@ -1,16 +1,24 @@
+import {
+    ADD_NUMBER,
+    SUB_NUMBER,
+    RESET_TO_ZERO
+} from "../action/actionTypes"
+import {
+    createReducer
+} from '@reduxjs/toolkit'
+
 let initialState = {
-    counter : 0
+    totalCount: 0
 }
 
-export default (state = initialState, action) => {
-    switch (action.type) {
-        case 'ADD_NUMBER':
-            return {counter : state.counter + action.number}
-        case 'SUB_NUMBER':
-            return {counter : state.counter - action.number}
-        case 'RESET_TO_ZERO':
-            return {counter : state.counter - action.number}
-        default:
-            return state
-    }
-}
+export default createReducer(initialState, {
+    [ADD_NUMBER]: (state, action) => ({
+        totalCount: state.totalCount + action.payload
+    }),
+    [SUB_NUMBER]: (state, action) => ({
+        totalCount: state.totalCount - action.payload
+    }),
+    [RESET_TO_ZERO]: (state, action) => ({
+        totalCount: state.totalCount - action.payload
+    })
+})
