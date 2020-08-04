@@ -10,14 +10,14 @@ class Counter extends React.Component {
         this.setState((prevState) => ({
             value: prevState.value + 1
         }))
-        this.props.onIncrement()
+        this.props.addNumber(1)
     }
 
     onDecrease = () => {
         this.setState((prevState) => ({
             value: prevState.value - 1
         }))
-        this.props.onDecrement()
+        this.props.subNumber(1)
     }
 
     render() {
@@ -31,7 +31,7 @@ class Counter extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.unmountCounter(this.state.value)
+        this.props.resetToZero(this.state.value)
     }
 }
 

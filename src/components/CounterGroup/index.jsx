@@ -1,17 +1,17 @@
 import React from 'react'
 import Counter from '../Counter';
 import { unmountCounter } from '../../action'
+import { connect } from 'react-redux';
 
 class CounterGroup extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { size: 0, totalCount: 0 };
+        this.state = { size: 0};
     }
 
     handleResize = (event) => {
         this.setState({
-            size: event.target.value ? parseInt(event.target.value) : 0,
-            totalCount: 0
+            size: event.target.value ? parseInt(event.target.value) : 0
         })
     }
 
@@ -21,7 +21,7 @@ class CounterGroup extends React.Component {
 
     render() {
         const initArray = [...Array(this.state.size).keys()];
-
+        // debugger
         return (
             <div>
                 <div>
@@ -32,14 +32,14 @@ class CounterGroup extends React.Component {
                 </div>
                 <div>
                     <label>
-                        Total Number: {this.props.store.getState()}
+                        Total Number: {this.props.sum}
                     </label>
                 </div>
                 {
                     initArray.map(key => <Counter
-                        onIncrement={() => this.props.store.dispatch({ type: 'INCREMENT' })}
-                        onDecrement={() => this.props.store.dispatch({ type: 'DECREMENT' })}
-                        unmountCounter={this.unmountCounter}
+                        addNumber={this.props.addNumber}
+                        subNumber={this.props.subNumber}
+                        resetToZero={this.props.resetToZero}
                         key={key}
                     />)
                 }
@@ -48,4 +48,14 @@ class CounterGroup extends React.Component {
     }
 }
 
-export default CounterGroup
+const mapStateToProps = state => {
+    return {sum: state.counter}
+}
+
+const mapDispatchToProps = dispatch => ({
+    addNumber: (number) => dispatch({type: 'ADD_NUMBER', number}),
+    subNumber: (number) => dispatch({type: 'SUB_NUMBER', number}),
+    resetToZero: (number) => dispatch({type: 'RESET_TO_ZERO', number})
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CounterGroup)
